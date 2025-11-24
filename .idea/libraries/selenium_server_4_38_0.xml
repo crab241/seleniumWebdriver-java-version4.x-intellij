@@ -5,6 +5,35 @@
       <root url="jar://$PROJECT_DIR$/libraries/testng-7.11.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-chrome-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-chromium-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-edge-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-firefox-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-grid-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-http-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-ie-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-json-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-manager-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-os-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-remote-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-safari-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-support-4.38.0-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/sourceDocs" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-chrome-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-chromium-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-edge-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-firefox-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-grid-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-http-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-ie-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-json-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-manager-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-os-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-remote-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-safari-driver-4.38.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sourceDocs/selenium-support-4.38.0-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/sourceDocs" />
+    </SOURCES>
   </library>
 </component>
