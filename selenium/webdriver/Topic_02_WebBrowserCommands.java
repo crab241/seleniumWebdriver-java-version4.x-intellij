@@ -34,19 +34,19 @@ public class Topic_02_WebBrowserCommands {
 
     @Test
     public void TC_01(){
-        driver.get("https://demo.nopcommerce.com/");
+        driver.get("https://demo.nopcommerce.com/"); //**
 
         // Close browser ( k qtam có bao nhiêu tab/window đang open, đóng tất cả )
-        driver.quit();
+        driver.quit(); //**
 
         // Close browser ( chỉ close tab/window đang active, đang sử dụng )
         driver.close();
 
         // Tìm 1 element
-        driver.findElement(By.cssSelector(""));
+        driver.findElement(By.cssSelector("")); //**
 
         // Tìm nhiều element
-        driver.findElements(By.cssSelector(""));
+        driver.findElements(By.cssSelector("")); //**
 
         // Lấy URL của page hiện tại
         driver.getCurrentUrl();
@@ -57,16 +57,16 @@ public class Topic_02_WebBrowserCommands {
         Assert.assertTrue(driver.getPageSource().contains("Computer"));
 
         // Return title của page hiện tại
-        driver.getTitle();
+        driver.getTitle(); //*
 
         // Return ID của tab hoặc window hiện tại đang active
-        driver.getWindowHandle();
+        driver.getWindowHandle(); //*
 
         // Return ID của tất cả các tab hoặc windows đang active
         driver.getWindowHandles();
 
         // Expand, mở rộng cửa so trình duyệt
-        driver.manage().window().maximize();
+        driver.manage().window().maximize(); //**
 
         // Thu nhỏ cửa sổ về dưới Taskbar
         driver.manage().window().minimize();
@@ -89,7 +89,7 @@ public class Topic_02_WebBrowserCommands {
         driver.manage().window().getPosition();
 
         // Set time out cho viec tim kiem element
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30)); //**
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(30000));
 
         driver.manage().timeouts().getImplicitWaitTimeout();
@@ -111,9 +111,9 @@ public class Topic_02_WebBrowserCommands {
         driver.navigate().refresh();
 
         // Áp dụng cho 3 cái: Handle alert, window/tab, frame/iframe
-        driver.switchTo().alert();
-        driver.switchTo().window("");
-        driver.switchTo().frame("");
+        driver.switchTo().alert(); //*
+        driver.switchTo().window(""); //*
+        driver.switchTo().frame(""); //*
 
     }
 

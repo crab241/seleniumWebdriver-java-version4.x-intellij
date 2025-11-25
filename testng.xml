@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"><suite name="All Test Suite"><test verbose="2" preserve-order="true" name="F:/training/Automation Test self study/seleniumWebdriver-java-version4.x"><classes><class name="webdriver.Topic_01_Browser"><methods><include name="TC_01_Chrome"/><include name="TC_02_Edge"/><include name="TC_03_Firefox"/></methods></class><class name="webdriver.Topic_02_WebBrowserCommands"><methods><include name="TC_01"/></methods></class></classes></test></suite>
