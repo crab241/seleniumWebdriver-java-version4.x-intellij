@@ -80,6 +80,7 @@ public class Topic_04_Login_Exercise {
         driver.findElement(By.cssSelector("button#proceed-button")).click();
 
         Thread.sleep(2000);
+        // li.error-msg>ul>li can be raplace with li-error-msg span
         Assert.assertEquals(driver.findElement(By.cssSelector("li.error-msg>ul>li")).getText(), "Invalid login or password.");
     }
 
