@@ -195,6 +195,116 @@ public class Topic_05_TextBox_TextArea {
         Assert.assertTrue(driver.findElement(By.xpath("//div[text()='Passport']/parent::div/following-sibling::div/div[text()='" + passportNumber + "']")).isDisplayed());
     }
 
+    @Test
+    public void TC_02_Textbox_TextArea_Topic_06_redo() throws InterruptedException {
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+
+        driver.findElement(By.cssSelector("input[name='username']")).sendKeys("Admin");
+        driver.findElement(By.cssSelector("input[name='password']")).sendKeys("admin123");
+        driver.findElement(By.xpath("//button[contains(string(), 'Login')]")).click();
+
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.oxd-loading-spinner"))));
+
+        // Navigate to PIM page
+        driver.findElement(By.xpath("//a/span[text()='PIM']")).click();
+
+        // Navigate to Add Employee page
+        driver.findElement(By.xpath("//a[text()='Add Employee']")).click();
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Enter user first name, last name and get employeeID
+        driver.findElement(By.xpath("//input[@name='firstName']")).sendKeys(firstName);
+        driver.findElement(By.xpath("//input[@name='lastName']")).sendKeys(lastName);
+        employeeID = driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input")).getDomProperty("_value");
+        driver.findElement(By.xpath("//p[text()='Create Login Details']/following-sibling::div/label/span")).click();
+
+        // Enter username, password for login
+        driver.findElement(By.xpath("//label[text()='Username']//parent::div/following-sibling::div/input")).sendKeys(emailAddress);
+        driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div/input")).sendKeys(password);
+        driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div/input")).sendKeys(password);
+        driver.findElement(By.xpath("//button[contains(string(), 'Save')]")).click();
+        Thread.sleep(2000);
+
+        // Verify Successfull Message after new user created
+        Assert.assertTrue(driver.findElement(By.xpath("//p[text()='Successfully Saved']")).isDisplayed());
+
+        // Wait for LoadingIcon finish before proceed to the next step
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Wait for the second LoadingIcon finish before proceed to the next step
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Verify user credentials in Personal Page equal to the Add Employee Page
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@name='firstName']")).getDomProperty("_value"), firstName);
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@name='lastName']")).getDomProperty("_value"), lastName);
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input")).getDomProperty("_value"), employeeID);
+
+        // Navigate to Immigration page
+        driver.findElement(By.xpath("//a[text()='Immigration']")).click();
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        driver.findElement(By.xpath("//h6[text()='Assigned Immigration Records']/following-sibling::button[contains(string(), 'Add')]")).click();
+
+        driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).sendKeys(passportNumber);
+        driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).sendKeys(passportComment);
+        driver.findElement(By.xpath("//button[contains(string(), 'Save')]")).click();
+        Thread.sleep(2000);
+
+        // Verify Successfull Message after new user created
+        Assert.assertTrue(driver.findElement(By.xpath("//p[text()='Successfully Saved']")).isDisplayed());
+
+        // Wait for LoadingIcon finish before proceed to the next step
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        driver.findElement(By.xpath("//i[@class='oxd-icon bi-pencil-fill']/parent::button")).click();
+
+        // Wait for LoadingIcon finish before proceed to the next step
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Verify passport number and comment
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).getDomProperty("_value"), passportNumber);
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).getDomProperty("_value"), passportComment);
+
+        // Logout
+        driver.findElement(By.cssSelector("li.oxd-userdropdown")).click();
+        driver.findElement(By.xpath("//a[text()='Logout']")).click();
+
+        Thread.sleep(2000);
+
+        //Login with new user just created
+        driver.findElement(By.cssSelector("input[name='username']")).sendKeys(emailAddress);
+        driver.findElement(By.cssSelector("input[name='password']")).sendKeys(password);
+        driver.findElement(By.xpath("//button[contains(string(), 'Login')]")).click();
+
+        // Wait for LoadingIcon finish before proceed to the next step
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Navigate to My Info page
+        driver.findElement(By.xpath("//span[text()='My Info']/parent::a")).click();
+
+        // Wait for LoadingIcon finish before proceed to the next step
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Verify user information
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@name='firstName']")).getDomProperty("_value"), firstName);
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@name='lastName']")).getDomProperty("_value"), lastName);
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div/input")).getDomProperty("_value"), employeeID);
+
+        // Navigate to Immigration page
+        driver.findElement(By.xpath("//a[text()='Immigration']")).click();
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Click pencil icon
+        driver.findElement(By.xpath("//i[@class='oxd-icon bi-pencil-fill']/parent::button")).click();
+        Assert.assertTrue(isLoadingIconDisappear());
+
+        // Verify user passport number and comment
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Number']/parent::div/following-sibling::div/input")).getDomProperty("_value"), passportNumber);
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).getDomProperty("_value"), passportComment);
+
+
+    }
+
     private Boolean isLoadingIconDisappear() {
         return new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.oxd-loading-spinner"))));
     }
