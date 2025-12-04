@@ -89,6 +89,30 @@ public class Topic_07_Default_Dropdown {
 
     }
 
+    @Test
+    public void TC_02_rode_redo() {
+        driver.get("https://rode.com/en-int/support/where-to-buy");
+
+        Assert.assertFalse(new Select(driver.findElement(By.cssSelector("select#country"))).isMultiple());
+
+        // Select Vietnam and Enter HO CHI MINH value and search
+        new Select(driver.findElement(By.cssSelector("select#country"))).selectByVisibleText("Vietnam");
+        driver.findElement(By.cssSelector("input#map_search_query")).sendKeys("HO CHI MINH");
+        driver.findElement(By.xpath("//button[@class='btn btn-default']")).click();
+
+        // Verify that there are 16 dealers
+        Assert.assertEquals(driver.findElements(By.xpath("//h3[text()='Dealers']/following-sibling::div/div")).size(), 16);
+
+        // Put all the dealers div element into a list to print
+        List<WebElement> dealers = driver.findElements(By.xpath("//h3[text()='Dealers']/following-sibling::div/div"));
+        Assert.assertEquals(dealers.size(), 16);
+
+        // Print all the dealers information
+        for (WebElement dealer : dealers){
+            System.out.println(dealer.getText());
+        }
+    }
+
     @AfterClass
     public void afterClass(){
         driver.quit();
