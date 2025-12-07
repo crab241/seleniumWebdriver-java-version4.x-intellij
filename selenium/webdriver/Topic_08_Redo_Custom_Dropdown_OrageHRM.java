@@ -57,8 +57,10 @@ public class Topic_08_Redo_Custom_Dropdown_OrageHRM {
         // Select item Quality Assurance from Sub Unit Dropdown
         selectItemInDropdown("Sub Unit", "Sub Unit", "Quality Assurance");
 
-
-
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Job Title']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Automation Tester");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Employment Status']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Full-Time Contract");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Include']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Past Employees Only");
+        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Sub Unit']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Quality Assurance");
 
     }
 
