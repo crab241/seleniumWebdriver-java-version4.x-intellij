@@ -24,61 +24,122 @@ public class Topic_08_Redo_Custom_Dropdown_OrageHRM {
         driver.manage().window().maximize();
     }
 
+
     @Test
-    public void TC_OrangeHRM() throws InterruptedException {
+    public void TC_01_JQuery() throws InterruptedException {
+        driver.get("http://jqueryui.com/resources/demos/selectmenu/default.html");
+
+        selectItemInJQueryCustomDropdown("//span[@id='speed-button']", "//ul[@id='speed-menu']/li", "Medium");
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='speed-button']//span[@class='ui-selectmenu-text']")).getText(), "Medium");
+
+        selectItemInJQueryCustomDropdown("//span[@id='files-button']", "//ul[@id='files-menu']/li", "ui.jQuery.js");
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='files-button']//span[@class='ui-selectmenu-text']")).getText(), "ui.jQuery.js");
+
+        selectItemInJQueryCustomDropdown("//span[@id='number-button']", "//ul[@id='number-menu']/li", "6");
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='number-button']//span[@class='ui-selectmenu-text']")).getText(), "6");
+
+        selectItemInJQueryCustomDropdown("//span[@id='salutation-button']", "//ul[@id='salutation-menu']/li", "Mr.");
+        Assert.assertEquals(driver.findElement(By.xpath("//span[@id='salutation-button']//span[@class='ui-selectmenu-text']")).getText(), "Mr.");
+
+    }
+
+    @Test
+    public void TC_02_ReactJS() throws InterruptedException {
+        driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
+
+        selectItemInReactJSCustomDropdown("//div[@class='ui fluid selection dropdown']", "//div[@class='visible menu transition']/div", "Elliot Fu");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='ui fluid selection dropdown']//div[@class='divider text']")).getText(), "Elliot Fu");
+
+        selectItemInReactJSCustomDropdown("//div[@class='ui fluid selection dropdown']", "//div[@class='visible menu transition']/div", "Jenny Hess");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='ui fluid selection dropdown']//div[@class='divider text']")).getText(), "Jenny Hess");
+
+        selectItemInReactJSCustomDropdown("//div[@class='ui fluid selection dropdown']", "//div[@class='visible menu transition']/div", "Christian");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='ui fluid selection dropdown']//div[@class='divider text']")).getText(), "Christian");
+
+        selectItemInReactJSCustomDropdown("//div[@class='ui fluid selection dropdown']", "//div[@class='visible menu transition']/div", "Matt");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='ui fluid selection dropdown']//div[@class='divider text']")).getText(), "Matt");
+    }
+
+    @Test
+    public void TC_03_Vue() throws InterruptedException {
+        driver.get("https://mikerodham.github.io/vue-dropdowns/");
+
+        selectItemInVueJSDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a", "First Option");
+        Assert.assertEquals(driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).getText(), "First Option");
+
+        selectItemInVueJSDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a", "Second Option");
+        Assert.assertEquals(driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).getText(), "Second Option");
+
+        selectItemInVueJSDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a", "Third Option");
+        Assert.assertEquals(driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).getText(), "Third Option");
+    }
+
+    @Test
+    public void TC_04_EditableDropdown() throws InterruptedException {
+        driver.get("https://react.semantic-ui.com/maximize/dropdown-example-search-selection/");
+
+        selectItemInEditableDropdown("//input[@class='search']", "//div[@class='visible menu transition']/div/span", "Australia");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='divider text']")).getText(), "Australia");
+
+        selectItemInEditableDropdown("//input[@class='search']", "//div[@class='visible menu transition']/div/span", "Armenia");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='divider text']")).getText(), "Armenia");
+
+        selectItemInEditableDropdown("//input[@class='search']", "//div[@class='visible menu transition']/div/span", "Bahamas");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='divider text']")).getText(), "Bahamas");
+
+        selectItemInEditableDropdown("//input[@class='search']", "//div[@class='visible menu transition']/div/span", "Bangladesh");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='divider text']")).getText(), "Bangladesh");
+    }
+
+    @Test
+    public void TC_05_FinPeace_EditableDropdown() throws InterruptedException {
+        driver.get("https://sps.finpeace.vn/tools/sktccn");
+
+        selectItemInFinPeaceEditableDropdown("//input[@id='job_id']", "//div[@id='job_id_list']/following-sibling::div//div[@class='ant-select-item-option-content']", "Công nghệ thông tin");
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='job_id']/parent::span/following-sibling::span")).getText(), "Công nghệ thông tin");
+
+        selectItemInFinPeaceEditableDropdown("//input[@id='gender']", "//div[@id='gender_list']//following-sibling::div[@class='rc-virtual-list']//div[@class='ant-select-item-option-content']", "Nam");
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='gender']//parent::span/following-sibling::span")).getText(), "Nam");
+
+        selectItemInFinPeaceEditableDropdown("//input[@id='married_status']", "//div[@id='married_status_list']/following-sibling::div//div[@class='ant-select-item-option-content']", "Độc thân, chưa có con");
+        Assert.assertEquals(driver.findElement(By.xpath("//input[@id='married_status']/parent::span/following-sibling::span")).getText(), "Độc thân, chưa có con");
+    }
+
+    @Test
+    public void TC_06_OrangeHRMDropDown() throws InterruptedException {
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
-        // Login
         driver.findElement(By.xpath("//input[@name='username']")).sendKeys("Admin");
         driver.findElement(By.xpath("//input[@name='password']")).sendKeys("admin123");
         driver.findElement(By.xpath("//button[contains(string(), 'Login')]")).click();
 
-        // Wait until all the Loading Icon dissappear first
+        // Wait for the Loading Icons to complete load
         Assert.assertTrue(isLoadingIconDisappear());
 
-        // Verify Dashboard page is displayed
+        // Check if the Dashboard page is displayed
         Assert.assertTrue(driver.findElement(By.xpath("//h6[text()='Dashboard']")).isDisplayed());
 
-        // Go to PIM page
-        driver.findElement(By.xpath("//a//span[text()='PIM']")).click();
+        // Navigate to PIM page
+        driver.findElement(By.xpath("//span[text()='PIM']/parent::a")).click();
 
-        // Verify PIM page is displayed
+        // Check if the PIM page is displayed
         Assert.assertTrue(driver.findElement(By.xpath("//h6[text()='PIM']")).isDisplayed());
 
-        // Select item Automation Tester from Sob Title Dropdown
-        selectItemInDropdown("Job Title", "Job Title", "Automaton Tester");
-
-        // Select item Full-Time Contract from Eployment Status Dropdown
-        selectItemInDropdown("Employment Status", "Employment Status", "Full-Time Contract");
-
-        // Select item Past Employees Only from Include Dropdown
-        selectItemInDropdown("Include", "Include", "Past Employees Only");
-
-        // Select item Quality Assurance from Sub Unit Dropdown
-        selectItemInDropdown("Sub Unit", "Sub Unit", "Quality Assurance");
-
-        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Job Title']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Automation Tester");
-        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Employment Status']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Full-Time Contract");
-        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Include']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Past Employees Only");
-        Assert.assertEquals(driver.findElement(By.xpath("//label[text()='Sub Unit']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']")).getText(), "Quality Assurance");
+        selectItemInOrangeHRMDropdown("Employment Status", "Full-Time Contract");
+        selectItemInOrangeHRMDropdown("Include", "Past Employees Only");
+        selectItemInOrangeHRMDropdown("Job Title", "Automation Tester");
+        selectItemInOrangeHRMDropdown("Sub Unit", "Quality Assurance");
 
     }
 
-    private void selectItemInDropdown(String parentLocator, String childLocator, String requiredItem) throws InterruptedException {
-        // Click on a Dropdown
-        driver.findElement(By.xpath("//label[text()='" + parentLocator + "']//parent::div/following-sibling::div//div[@class='oxd-select-wrapper']")).click();
+    private void selectItemInOrangeHRMDropdown(String nameDropdown, String selectItem) throws InterruptedException {
+        driver.findElement(By.xpath("//label[text()='" + nameDropdown + "']/parent::div/following-sibling::div/div[@class='oxd-select-wrapper']")).click();
 
-        // Wait for all the items in the Dropdown to be presence and store them into a list
-        /* The right side is wait for all the items to be fully presence, but it also returns a list of WebElements,
-        which is simalare to findElements */
-        // The left side declare a list of WebElement and store the WebElements that the right side returns
-        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//label[text()='" + childLocator + "']/parent::div/following-sibling::div//div[contains(@class, 'oxd-select-option')]/span")));
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//label[text()='" + nameDropdown + "']/parent::div/following-sibling::div//div[contains(@class,'oxd-select-dropdown')]/div/span")));
 
-        // Loop the whole list of Elements until the one that we required
-        for (WebElement temp : allItems) {
-            if ( temp.getText().equals(requiredItem)){
-                // Click on the desired value of the items
-                temp.click();
+        for (WebElement item : allItems) {
+            if (item.getText().equals(selectItem)) {
+                item.click();
                 Thread.sleep(2000);
                 break;
             }
@@ -86,8 +147,83 @@ public class Topic_08_Redo_Custom_Dropdown_OrageHRM {
     }
 
     private Boolean isLoadingIconDisappear() {
-        return new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.xpath("div.oxd-loading-spinner"))));
+        return new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.cssSelector("div.oxd-loading-spinner"))));
     }
+
+    private void selectItemInFinPeaceEditableDropdown(String parentXpath, String childXpath, String selectItem) throws InterruptedException {
+        driver.findElement(By.xpath(parentXpath)).clear();
+        driver.findElement(By.xpath(parentXpath)).sendKeys(selectItem);
+        Thread.sleep(2000);
+
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childXpath)));
+
+        for (WebElement item : allItems) {
+            if (item.getText().equals(selectItem)) {
+                item.click();
+                Thread.sleep(2000);
+                break;
+            }
+        }
+
+    }
+
+    private void selectItemInEditableDropdown(String parentXpath, String childXpath, String selectItm) throws InterruptedException {
+        driver.findElement(By.xpath(parentXpath)).clear();
+        driver.findElement(By.xpath(parentXpath)).sendKeys(selectItm);
+
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childXpath)));
+
+        for (WebElement item : allItems) {
+            if (item.getText().equals(selectItm)) {
+                item.click();
+                Thread.sleep(2000);
+                break;
+            }
+        }
+    }
+
+    private void selectItemInVueJSDropdown(String parentXpath, String childXpath, String selectItem) throws InterruptedException {
+        driver.findElement(By.xpath(parentXpath)).click();
+
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childXpath)));
+
+        for (WebElement item : allItems) {
+            if (item.getText().equals(selectItem)) {
+                item.click();
+                Thread.sleep(2000);
+                break;
+            }
+        }
+    }
+
+    private void selectItemInReactJSCustomDropdown(String parentXpath, String childXpath, String selectItem) throws InterruptedException {
+        driver.findElement(By.xpath(parentXpath)).click();
+
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childXpath)));
+
+        for (WebElement item : allItems) {
+            if (item.getText().equals(selectItem)) {
+                item.click();
+                Thread.sleep(2000);
+                break;
+            }
+        }
+    }
+
+    private void selectItemInJQueryCustomDropdown(String parentXpath, String childXpath, String selectItem) throws InterruptedException {
+        driver.findElement(By.xpath(parentXpath)).click();
+
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childXpath)));
+
+        for (WebElement item : allItems) {
+            if (item.getText().equals(selectItem)) {
+                item.click();
+                Thread.sleep(2000);
+                break;
+            }
+        }
+    }
+
 
     @AfterClass
     public void afterClass(){
