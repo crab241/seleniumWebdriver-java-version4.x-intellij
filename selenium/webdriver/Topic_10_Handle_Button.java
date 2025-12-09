@@ -50,6 +50,32 @@ public class Topic_10_Handle_Button {
         Assert.assertEquals(Color.fromString(driver.findElement(loginButton).getCssValue("background-color")).asHex().toUpperCase(), "#C92127");
     }
 
+    @Test
+    public void TC_01_Fahasa_redo(){
+        driver.get("https://www.fahasa.com/customer/account/create");
+
+        driver.findElement(By.cssSelector("li.popup-login-tab-login")).click();
+
+        By loginButton = By.cssSelector("button.fhs-btn-login");
+
+        // Convert background color from rgba value to hex value
+        String loginButtonColorRGBA = driver.findElement(loginButton).getCssValue("background-color");
+        Color loginButtonColor = Color.fromString(loginButtonColorRGBA);
+        String loginButtonColorHexa = loginButtonColor.asHex();
+
+        // Verify button when being disabled
+        Assert.assertEquals(loginButtonColorHexa.toUpperCase(), "#000000");
+        // Or can be write as this
+        Assert.assertEquals(Color.fromString(driver.findElement(loginButton).getCssValue("background-color")).asHex().toUpperCase(), "#000000");
+
+        driver.findElement(By.cssSelector("input#login_username")).sendKeys("0987654321");
+        driver.findElement(By.cssSelector("input#login_password")).sendKeys("Meomaybe@123");
+
+        // Verify button when being enabled
+        Assert.assertEquals(Color.fromString(driver.findElement(loginButton).getCssValue("background-color")).asHex().toUpperCase(), "#C92127");
+
+    }
+
     @AfterClass
     public void afterClass(){
         driver.quit();

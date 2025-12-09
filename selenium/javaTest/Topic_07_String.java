@@ -58,7 +58,7 @@ public class Topic_07_String {
         // Thay thế giá trị target với giá trị replacement
         System.out.println(text.replace("RGBA", "Hexa"));
 
-        text = "          \nConvert RGBA color value.\n         "
+        text = "          \nConvert RGBA color value.\n         ";
         System.out.println(text);
         System.out.println(text.length());
         System.out.println(text.trim().length());
