@@ -86,6 +86,51 @@ public class Topic_12_Custom_Checkbox_Radio {
 
     }
 
+    @Test
+    public void Redo_TC_05_Ubuntu() throws InterruptedException {
+        driver.get("https://login.ubuntu.com/");
+
+        By noUbuntuAccountRadio = By.xpath("//span[text()='I don’t have an Ubuntu One account']/parent::label/preceding-sibling::input");
+
+        By acceptTermsCheckbox = By.cssSelector("input#id_accept_tos");
+
+        // Select I don't have an Ubuntu One account
+        jsExecutor.executeScript("arguments[0].click()", driver.findElement(noUbuntuAccountRadio));
+
+        // Verify that radio is selected
+        Assert.assertTrue(driver.findElement(noUbuntuAccountRadio).isSelected());
+
+        Thread.sleep(2000);
+
+        // Select the Accept terms checkbox
+        jsExecutor.executeScript("arguments[0].click()", driver.findElement(acceptTermsCheckbox));
+
+        // Verify it is selected
+        Assert.assertTrue(driver.findElement(acceptTermsCheckbox).isSelected());
+    }
+
+    @Test
+    public void Redo_TC_06_GGDocs() throws InterruptedException {
+        driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+
+        // Can use //span[text()='Cần Thơ']/parent::div/parent::div/preceding-sibling::div/div as a replacement locator
+        By canthoRadio = By.xpath("//div[@data-value='Cần Thơ']");
+
+        Thread.sleep(2000);
+        // Check to see Can THo radio is not select yet
+        Assert.assertEquals(driver.findElement(canthoRadio).getDomAttribute("aria-checked"), "false");
+
+        //Thread.sleep(2000);
+        // Click on Can Tho radio
+        driver.findElement(canthoRadio).click();
+
+        // Thread.sleep(2000);
+        // Verify that Can Tho radio is selected
+        Assert.assertEquals(driver.findElement(canthoRadio).getDomAttribute("aria-checked"), "true");
+
+
+    }
+
     @AfterClass
     public void afterClass(){
         driver.quit();
