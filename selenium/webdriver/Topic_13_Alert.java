@@ -8,7 +8,7 @@ import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.devtools.v143.network.Network;
 import org.openqa.selenium.devtools.v143.network.model.Headers;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -26,8 +26,8 @@ public class Topic_13_Alert {
 
     @BeforeClass
     public void beforeClass(){
-        //driver = new FirefoxDriver();
-        driver = new EdgeDriver();
+        driver = new FirefoxDriver();
+        //driver = new EdgeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         driver.manage().window().maximize();
     }
@@ -180,6 +180,94 @@ public class Topic_13_Alert {
 
         Assert.assertEquals(driver.findElement(By.cssSelector("div.example>p")).getText(), "Congratulations! You must have the proper credentials.");
 
+    }
+
+    @Test
+    public void HW_TC_07_Accept_Alert() throws InterruptedException {
+        driver.get("https://automationfc.github.io/basic-form/index.html");
+
+        driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
+
+        Thread.sleep(3000);
+
+        // Wait for alert to display
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.alertIsPresent());
+
+        Alert alert = driver.switchTo().alert();
+
+        // Verify text display on alert
+        Assert.assertEquals(alert.getText(), "I am a JS Alert");
+
+        // Accept alert ( click ok )
+        alert.accept();
+
+        // Verify message
+        Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(), "You clicked an alert successfully");
+
+    }
+
+    @Test
+    public void HW_TC_08_Confirm_Alert() throws InterruptedException {
+        driver.get("https://automationfc.github.io/basic-form/index.html");
+
+        driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
+
+        Thread.sleep(3000);
+
+        // Wait for alert to display
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.alertIsPresent());
+
+        Alert alert = driver.switchTo().alert();
+
+        // Verify message
+        Assert.assertEquals(alert.getText(), "I am a JS Confirm");
+
+        // cancel alert
+        alert.dismiss();
+
+        Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(), "You clicked: Cancel");
+
+    }
+
+    @Test
+    public void HW_TC_09_Prompt_Alert() throws InterruptedException {
+        driver.get("https://automationfc.github.io/basic-form/index.html");
+        String alertText = "I want to be an Automation Tester";
+
+        driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
+
+        Thread.sleep(3000);
+
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.alertIsPresent());
+
+        Assert.assertEquals(alert.getText(), "I am a JS prompt");
+
+        alert.sendKeys(alertText);
+        alert.accept();
+
+        Assert.assertEquals(driver.findElement(By.cssSelector("p#result")).getText(), "You entered: " + alertText);
+
+    }
+
+    @Test
+    public void HW_TC_11_Authentication_Alert(){
+        driver.get("http://the-internet.herokuapp.com/");
+        String username = "admin";
+        String passwd = "admin";
+
+        String url = driver.findElement(By.xpath("//a[text()='Basic Auth']")).getDomProperty("href");
+        System.out.println(url); // http://the-internet.herokuapp.com/basic_auth
+
+        // Split the url into 2 parts, seperate by the "//"
+        String[] urlArr = url.split("//");
+
+        // Add login credentials to the url
+        url = urlArr[0] + "//" + username + ":" + passwd + "@" + urlArr[1];
+        System.out.println(url); //http://admin:admin@the-internet.herokuapp.com/basic_auth
+
+        driver.get(url);
+
+        Assert.assertEquals(driver.findElement(By.cssSelector("div.example>p")).getText(), "Congratulations! You must have the proper credentials.");
     }
 
     @AfterClass
