@@ -64,4 +64,16 @@ public class Topic_07_String {
         System.out.println(text.trim().length());
 
     }
+
+    @Test
+    public void TC_02(){
+        String url = "http://the-internet.herokuapp.com/basic_auth";
+        String username = "admin";
+        String passwd = "12345";
+
+        String[] urlArr = url.split("//");
+
+        url = urlArr[0] + "//" + username + ":" + passwd + "@" + urlArr[1];
+        System.out.println(url);
+    }
 }

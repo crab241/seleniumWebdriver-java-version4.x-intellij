@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="selenium-server-4.38.0" level="project" />
+    <orderEntry type="library" name="commons-codec-1.20.0" level="project" />
   </component>
 </module>
