@@ -65,6 +65,37 @@ public class Topic_14_User_Interactions {
         Assert.assertTrue(driver.findElement(By.xpath("//ol[@class='breadcrumb']//strong[text()='Toán']")).isDisplayed());
     }
 
+    @Test
+    public void HW_TC_01_Toolstip(){
+        driver.get("https://automationfc.github.io/jquery-tooltip/");
+
+        actions.moveToElement(driver.findElement(By.cssSelector("input#age"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        Assert.assertEquals(driver.findElement(By.cssSelector("div.ui-tooltip-content")).getText(), "We ask for your age only for statistical purposes.");
+    }
+
+    @Test
+    public void HW_TC_03_Fahasa() throws InterruptedException {
+        driver.get("https://www.fahasa.com/");
+
+        Thread.sleep(10000);
+        // Hover to menu icon
+        actions.moveToElement(driver.findElement(By.cssSelector("span.icon_menu"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        // Hover to Sách Giáo Khoa 2025
+        actions.moveToElement(driver.findElement(By.xpath("//span[text()='Sách Giáo Khoa 2025']/parent::a[@title='Sách Giáo Khoa 2025']"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        actions.moveToElement(driver.findElement(By.xpath("//div[@class='fhs_column_stretch']//a[text()='Luyện Thi Môn Toán']"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        driver.findElement(By.xpath("//div[@class='fhs_column_stretch']//a[text()='Luyện Thi Môn Toán']")).click();
+
+        Assert.assertTrue(driver.findElement(By.xpath("//ol[@class='breadcrumb']//strong[text()='Toán']")).isDisplayed());
+    }
+
     @AfterClass
     public void afterClass(){
         driver.quit();
