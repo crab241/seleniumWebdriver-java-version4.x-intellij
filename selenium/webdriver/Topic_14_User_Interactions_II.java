@@ -63,7 +63,7 @@ public class Topic_14_User_Interactions_II {
         // Verify list size
         Assert.assertEquals(allItems.size(), 30);
 
-        Keys key = null;
+        Keys key = null; // key for keycap
         if (osName.contains("Windows")){
             key = Keys.CONTROL;
         } else {
@@ -78,7 +78,6 @@ public class Topic_14_User_Interactions_II {
 
         // Release Ctrl
         actions.keyUp(key).perform();
-
         actions.pause(Duration.ofSeconds(2)).perform();
 
         // Verify
@@ -139,6 +138,104 @@ public class Topic_14_User_Interactions_II {
         Thread.sleep(2000);
 
         // Return to no display
+        Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-quit")).isDisplayed());
+    }
+
+    @Test
+    public void HW_TC_04_ClickAndHold_SelectMultipleItem(){
+        driver.get("https://automationfc.github.io/jquery-selectable/");
+
+        // Put all the number elements into a list
+        List<WebElement> allNumbers = driver.findElements(By.cssSelector("ol#selectable>li"));
+
+        //Click and Hold from 1 -> 4
+        actions.clickAndHold(allNumbers.getFirst()).moveToElement(allNumbers.get(3)).release().perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        // Verify that number 1 to 4 are selected
+        Assert.assertEquals(driver.findElements(By.cssSelector("ol#selectable>li.ui-selected")).size(), 4);
+
+    }
+
+    @Test
+    public void HW_TC_05_ClickAndSelect_RandomItem(){
+        driver.get("https://automationfc.github.io/jquery-selectable/");
+
+        List<WebElement> allNumbers = driver.findElements(By.cssSelector("ol#selectable>li"));
+
+        Keys key = null;
+        if (osName.contains("Windows")){
+            key = Keys.CONTROL;
+        } else {
+            key = Keys.COMMAND;
+        }
+
+        // Push down Ctrl key for multiple item select
+        actions.keyDown(key).perform();
+
+        // Click and Select random item 1 3 6 11
+        actions.click(allNumbers.getFirst()).click(allNumbers.get(2)).click(allNumbers.get(5)).click(allNumbers.get(10)).perform();
+
+        // Release Ctrl key
+        actions.keyUp(key).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        // Verify numbers that are selected
+        Assert.assertEquals(driver.findElements(By.cssSelector("ol#selectable>li.ui-selected")).size(), 4);
+    }
+
+    @Test
+    public void HW_TC_06_DoubleClick(){
+        driver.get("https://automationfc.github.io/basic-form/index.html");
+
+        if (driver.toString().contains("Firefox")) {
+            // scroll to Double click button element
+            jsExecutor.executeScript("arguments[0].scrollIntoView(true)", driver.findElement(By.xpath("//button[text()='Double click me']")));
+        }
+
+        actions.pause(Duration.ofSeconds(2)).perform();
+
+        // Double click on double click button
+        actions.doubleClick(driver.findElement(By.xpath("//button[text()='Double click me']"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        // Verify text after successfully click on button
+        Assert.assertEquals(driver.findElement(By.cssSelector("p#demo")).getText(), "Hello Automation Guys!");
+
+    }
+
+    @Test
+    public void HW_TC_07_RightClick() throws InterruptedException {
+        driver.get("http://swisnl.github.io/jQuery-contextMenu/demo.html");
+
+        // Check that Quit menu not display before click on button
+        Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-quit")).isDisplayed());
+
+        // Right click on button
+        actions.contextClick(driver.findElement(By.xpath("//span[text()='right click me']"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        // Verify Quit menu is displayed
+        Assert.assertTrue(driver.findElement(By.cssSelector("li.context-menu-icon-quit")).isDisplayed());
+
+        // Hover on Quit menu
+        actions.moveToElement(driver.findElement(By.cssSelector("li.context-menu-icon-quit"))).perform();
+        actions.pause(Duration.ofSeconds(3)).perform();
+
+        // Verify Quit menu have been hover on
+        Assert.assertTrue(driver.findElement(By.cssSelector("li.context-menu-icon-quit.context-menu-visible.context-menu-hover")).isDisplayed());
+
+        // Click on Quit menu
+        driver.findElement(By.cssSelector("li.context-menu-icon-quit")).click();
+
+        // Wailt until alert is displayed, then accept it immediately
+        // alertisPresent retuns Alert type
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.alertIsPresent()).accept();
+
+        // Optional sleep for better check look
+        Thread.sleep(2000);
+
+        // Check to see Quit menu no longer display
         Assert.assertFalse(driver.findElement(By.cssSelector("li.context-menu-icon-quit")).isDisplayed());
     }
 
