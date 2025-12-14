@@ -3,6 +3,7 @@ package webdriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -11,6 +12,7 @@ import java.time.Duration;
 
 public class Template {
     WebDriver driver;
+    Actions actions;
 
     @BeforeClass
     public void beforeClass(){
@@ -22,6 +24,8 @@ public class Template {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         driver.manage().window().maximize();
+
+        actions = new Actions(driver);
     }
 
     @Test

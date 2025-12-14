@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class Topic_14_User_Interactions {
+public class Topic_14_User_Interactions_I {
     WebDriver driver;
     Actions actions;
 
