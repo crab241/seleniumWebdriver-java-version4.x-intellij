@@ -1,5 +1,6 @@
 package webdriver;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -13,6 +14,7 @@ import java.time.Duration;
 public class Template {
     WebDriver driver;
     Actions actions;
+    JavascriptExecutor jsExecutor;
 
     @BeforeClass
     public void beforeClass(){
@@ -21,6 +23,8 @@ public class Template {
         option.addPreference("dom.webnotifications.enabled", false);
 
         driver = new FirefoxDriver(option);
+
+        jsExecutor = (JavascriptExecutor) driver;
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         driver.manage().window().maximize();
