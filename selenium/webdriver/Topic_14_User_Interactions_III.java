@@ -1,7 +1,9 @@
 package webdriver;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.Point;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
@@ -10,8 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.time.Duration;
@@ -92,7 +92,7 @@ public class Topic_14_User_Interactions_III {
         }
     }
 
-    public void dragAndDropHTML5ByXpath(String sourceLocator, String targetLocator) throws AWTException {
+    /*public void dragAndDropHTML5ByXpath(String sourceLocator, String targetLocator) throws AWTException {
 
         WebElement source = driver.findElement(By.xpath(sourceLocator));
         WebElement target = driver.findElement(By.xpath(targetLocator));
@@ -133,9 +133,9 @@ public class Topic_14_User_Interactions_III {
 
         // Drop
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
-    }
+    }*/
 
-    public void TC_03_Drag_And_Drop_HTML5() throws InterruptedException, IOException, AWTException {
+   /* public void TC_03_Drag_And_Drop_HTML5() throws InterruptedException, IOException, AWTException {
         driver.get("https://automationfc.github.io/drag-drop-html5/");
 
         String jQueryFileContent = getContentFile(jQueryFilePath);
@@ -152,6 +152,21 @@ public class Topic_14_User_Interactions_III {
 
         Assert.assertEquals(driver.findElement(By.cssSelector("div#column-b>header")).getText(), "B");
         Assert.assertEquals(driver.findElement(By.cssSelector("div#column-a>header")).getText(), "A");
+    }*/
+
+    @Test
+    public void HW_TC_08_Drag_And_Drop_Element_HTML4(){
+        driver.get("https://automationfc.github.io/kendo-drag-drop/");
+
+        WebElement droptarget = driver.findElement(By.cssSelector("div#droptarget"));
+        WebElement dragsource = driver.findElement(By.cssSelector("div#draggable"));
+
+        actions.dragAndDrop(dragsource, droptarget).pause(Duration.ofSeconds(3)).perform();
+
+        // Verify message box in Drop target circle
+        Assert.assertEquals(droptarget.getText(), "You did great!");
+        // Verify background color of drop target turned to blue
+        Assert.assertEquals(Color.fromString(droptarget.getCssValue("background-color")).asHex(), "#03a9f4");
     }
 
     @AfterClass
