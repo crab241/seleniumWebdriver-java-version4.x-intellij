@@ -70,6 +70,56 @@ public class Topic_17_Handle_Frame_Iframe {
 
     }
 
+    @Test
+    public void HW_TC_10_Iframe(){
+        driver.get("https://toidicodedao.com/");
+
+        Assert.assertTrue(driver.findElement(By.cssSelector("iframe[title*='Facebook Social Plugin']")).isDisplayed());
+
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title*='Facebook Social Plugin']")));
+
+        Assert.assertEquals(driver.findElement(By.xpath("//a[text()='Tôi đi code dạo']/parent::div/following-sibling::div")).getText(), "399,209 followers");
+
+    }
+
+    @Test
+    public void HW_TC_11_Iframe() throws InterruptedException {
+        driver.get("https://www.formsite.com/templates/education/campus-safety-survey/");
+
+        // Click on the image to make the iframe form appear
+        driver.findElement(By.cssSelector("div#imageTemplateContainer>img")).click();
+        Thread.sleep(2000);
+
+        //jsExecutor.executeScript("arguments[0].scrollIntoView();", driver.findElement(By.cssSelector("div#formTemplateContainer>iframe")));
+        // Switch to the iframe to interact
+        driver.switchTo().frame(driver.findElement(By.cssSelector("div#formTemplateContainer>iframe")));
+
+        // Select stuff in the drop down of the form
+        new Select(driver.findElement(By.cssSelector("select#RESULT_RadioButton-2"))).selectByVisibleText("Senior");
+        new Select(driver.findElement(By.cssSelector("select#RESULT_RadioButton-3"))).selectByVisibleText("South Dorm");
+        driver.findElement(By.xpath("//label[text()='Male']")).click();
+        driver.findElement(By.cssSelector("input#FSsubmit")).click();
+
+        Thread.sleep(2000);
+
+        // Switch back to defaut page
+        driver.switchTo().defaultContent();
+
+        // Click on get this form
+        driver.findElement(By.xpath("//a[@title='Get this form']")).click();
+        //Thread.sleep(3000);
+
+        // Click on log in button
+        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+
+        // Click on login button without entering username and password
+        driver.findElement(By.cssSelector("button#login")).click();
+        //Thread.sleep(2000);
+
+        // Verify error messages appear after clicking login button without entering username and password
+        Assert.assertEquals(driver.findElement(By.cssSelector("div#message-error")).getText(), "Username and password are both required.");
+    }
+
 
     @AfterClass
     public void afterClass(){
