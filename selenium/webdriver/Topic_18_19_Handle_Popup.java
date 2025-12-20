@@ -82,11 +82,11 @@ public class Topic_18_19_Handle_Popup {
         driver.findElement(By.cssSelector("button.close-btn")).click();
         Thread.sleep(2000);
 
-        //Verify popup k hien thi
+        // Verify popup k hien thi
         // isDisplayed() k kiem tra cho 1 element k co trong HTML dc
         //Assert.assertFalse(driver.findElement(popup).isDisplayed());
 
-        // Khi xu ly cac element k ton tai trong HTML nen size lai timeout cua Implicit ve 1 con so ngan hon
+        // Khi xu ly cac element k ton tai trong HTML nen set lai timeout cua Implicit ve 1 con so ngan hon
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         Assert.assertEquals(driver.findElements(popup).size(), 0);
 
@@ -149,6 +149,121 @@ public class Topic_18_19_Handle_Popup {
 
     }
 
+    @Test
+    public void HW_TC_01_KMplayer() throws InterruptedException {
+        driver.get("https://www.kmplayer.com/home");
+
+        // Wait for popup to show up
+        Thread.sleep(8000);
+
+        By advertisePopup = By.cssSelector("div.pop-conts");
+
+        if (driver.findElement(advertisePopup).isDisplayed()){
+            System.out.println("======== Popup displayed ========");
+            driver.findElement(By.cssSelector("div.close")).click();
+            Thread.sleep(3000);
+        }
+
+        System.out.println("======== Popup not displayed ========");
+
+        Assert.assertFalse(driver.findElement(advertisePopup).isDisplayed());
+
+        driver.findElement(By.xpath("//a[text()='FAQ']")).click();
+
+        Assert.assertEquals(driver.findElement(By.xpath("//p[text()='Coming Soon']/following-sibling::a")).getText(), "KMPlayer FAQ");
+
+    }
+
+    @Test
+    public void TC_02_TiengAnhCoMaiPhuong_NotInHTML() throws InterruptedException {
+        driver.get("https://tienganhcomaiphuong.vn/");
+
+        // Click on Login button
+        driver.findElement(By.xpath("//button[text()='Đăng nhập']")).click();
+        Thread.sleep(2000);
+
+        By loginPopup = By.cssSelector("div[class*='custom-dialog-paper']");
+
+        // Verify login popup is display
+        Assert.assertTrue(driver.findElement(loginPopup).isDisplayed());
+
+        // Enter false credentials
+        driver.findElement(By.xpath("//input[@placeholder='Tài khoản đăng nhập']")).sendKeys("automationfc");
+        driver.findElement(By.xpath("//input[@placeholder='Mật khẩu']")).sendKeys("automationfc");
+        driver.findElement(By.xpath("//span[text()='Quên mật khẩu']/parent::div/" +
+                "following-sibling::div//button[text()='Đăng nhập']")).click();
+        Thread.sleep(2000);
+
+        // Verify error message
+        Assert.assertEquals(driver.findElement(By.cssSelector("div#notistack-snackbar")).getText(), "Bạn đã nhập sai tài khoản hoặc mật khẩu!");
+
+        // Close Login popup
+        driver.findElement(By.cssSelector("button[class*='close-btn']")).click();
+        Thread.sleep(2000);
+
+        // Reset implicit wait for this step for shorter search time
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
+        // Verify login Popup no longer display
+        // Since this Popop isn't in HTML when closed, assertTrue will not work since findElement cannot perform correctly
+        // Use findElements, get the size of the List Elements, compare it with 0 with assertEquals
+        Assert.assertEquals(driver.findElements(By.cssSelector("div[class*='custom-dialog-paper']")).size(), 0);
+
+        // Reset implicit wait
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+
+    }
+
+    @Test
+    public void HW_TC_03_Tiki() throws InterruptedException {
+        driver.get("https://tiki.vn/");
+        Thread.sleep(5000);
+
+        By advertisePopup = By.cssSelector("div#VIP_BUNDLE");
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(shortTimeout));
+        List<WebElement> adPopups = driver.findElements(advertisePopup);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(longTimeout));
+
+        if (adPopups.size() > 0) {
+            System.out.println("======== Popup displayed ========");
+            // Close popup
+            driver.findElement(By.xpath("//img[@alt='close-icon']")).click();
+            System.out.println(" Popup is closed");
+            Thread.sleep(1500);
+        }
+
+        System.out.println("======== Popup not displayed ========");
+
+        // Verify popup is close
+        Assert.assertEquals(driver.findElements(advertisePopup).size(), 0);
+
+        driver.findElement(By.xpath("//span[text()='Tài khoản']")).click();
+        //Thread.sleep(2000);
+
+        By loginPopup = By.cssSelector("div[class*='Content ReactModal']");
+
+        Assert.assertTrue(driver.findElement(loginPopup).isDisplayed());
+
+        // Click on Login with email
+        driver.findElement(By.cssSelector("p.login-with-email")).click();
+
+        // Click on Login button without entering any credentials
+        driver.findElement(By.xpath("//button[text()='Đăng nhập']")).click();
+        Thread.sleep(1500);
+
+        // Verify error messages display
+        Assert.assertTrue(driver.findElement(By.xpath("//span[text()='Email không được để trống']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//span[text()='Mật khẩu không được để trống']")).isDisplayed());
+
+        // Close login popup
+        driver.findElement(By.cssSelector("button.btn-close")).click();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        Assert.assertEquals(driver.findElements(loginPopup).size(), 0);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+
+    }
     @AfterClass
     public void afterClass(){
         driver.quit();
