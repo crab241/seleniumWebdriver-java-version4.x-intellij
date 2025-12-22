@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Set;
 
-public class Topic_20_Window_Tab {
+public class Topic_20_21_Window_Tab {
     WebDriver driver;
     Actions actions;
 
