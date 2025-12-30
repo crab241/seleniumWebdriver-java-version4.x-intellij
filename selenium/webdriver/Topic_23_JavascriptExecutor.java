@@ -16,6 +16,10 @@ import java.util.Random;
 public class Topic_23_JavascriptExecutor {
     WebDriver driver;
     JavascriptExecutor jsExecutor;
+    String firstName = "John";
+    String lastName = "Doe";
+    String ranEmail = "johndoe" + new Random().nextInt(9999) + "@hotmail.com";
+    String password = "Johndoe@1234";
 
     @BeforeClass
     public void beforeClass(){
@@ -98,6 +102,160 @@ public class Topic_23_JavascriptExecutor {
 
         Assert.assertEquals(getElementValidationMessage("//form[@id='login-form']//input[@id='id_password']"), "Please fill out this field.");
 
+    }
+
+    @Test
+    public void HW_TC_01_Techpanda(){
+        navigateToUrlByJS("http://live.techpanda.org/");
+
+        // Verify domain
+        Assert.assertEquals(executeForBrowser("return document.domain;"), "live.techpanda.org");
+
+        // Verify URL
+        Assert.assertEquals(executeForBrowser("return document.URL;"), "https://live.techpanda.org/");
+
+        // Highlight and open Mobile page
+        hightlightElement("//a[text()='Mobile']");
+        clickToElementByJS("//a[text()='Mobile']");
+        sleepInSecond(2);
+
+        // Add Samsung Galaxy product into Cart
+        hightlightElement("//a[text()='Samsung Galaxy']/parent::h2//following-sibling::div[@class='actions']/button");
+        clickToElementByJS("//a[text()='Samsung Galaxy']/parent::h2//following-sibling::div[@class='actions']/button");
+        sleepInSecond(2);
+
+        // Verify Succesul message display
+        String samgsungMessage = getInnerText();
+        // First way to verify
+        Assert.assertTrue(samgsungMessage.contains("Samsung Galaxy was added to your shopping cart."));
+        // Second way to verify
+        Assert.assertTrue(isExpectedTextInInnerText("Samsung Galaxy was added to your shopping cart."));
+
+        // Highlight and open Customer Service page
+        hightlightElement("//a[text()='Customer Service']");
+        clickToElementByJS("//a[text()='Customer Service']");
+        sleepInSecond(2);
+
+        // Verify Customer Service title page
+        Assert.assertEquals(executeForBrowser("return document.title;"), "Customer Service");
+
+        // Scroll to Newsletter textbox at the bottom page
+        scrollToElementOnTop("//input[@id='newsletter']");
+        sleepInSecond(2);
+
+        // Random email generate
+        String randomEmail = "john" + new Random().nextInt(9999) + "yahoo@gmail.com";
+
+        // Input valid email
+        hightlightElement("//input[@id='newsletter']");
+        sendkeyToElementByJS("//input[@id='newsletter']", randomEmail);
+        sleepInSecond(1);
+
+        // Click on Subscribe button
+        hightlightElement("//button[@title='Subscribe']");
+        clickToElementByJS("//button[@title='Subscribe']");
+        sleepInSecond(1);
+
+        // Accept alert
+        driver.switchTo().alert().accept();
+        sleepInSecond(2);
+
+        // Verify successful message
+        Assert.assertTrue(isExpectedTextInInnerText("Thank you for your subscription."));
+
+        navigateToUrlByJS("https://www.facebook.com/");
+        sleepInSecond(2);
+
+        // Verify domain
+        Assert.assertEquals(executeForBrowser("return document.domain;"), "www.facebook.com");
+
+    }
+
+    @Test
+    public void HW_TC_03_Verify_HTML5_Message(){
+        driver.get("https://login.ubuntu.com/");
+
+        driver.findElement(By.xpath("//form[@id='login-form']//button[@name='continue']")).click();
+        sleepInSecond(1);
+
+        // Verify message appear
+        Assert.assertEquals(getElementValidationMessage("//form[@id='login-form']//input[@id='id_email']"), "Please fill out this field.");
+        sleepInSecond(2);
+
+        // Enter invalid email
+        driver.findElement(By.xpath("//form[@id='login-form']//input[@id='id_email']")).sendKeys("123@123.456@123");
+        driver.findElement(By.xpath("//form[@id='login-form']//button[@name='continue']")).click();
+        sleepInSecond(1);
+
+        // Verify message appear
+        Assert.assertEquals(getElementValidationMessage("//form[@id='login-form']//input[@id='id_email']"), "Please enter an email address.");
+        sleepInSecond(2);
+
+        // Enter valid email format
+        driver.findElement(By.xpath("//form[@id='login-form']//input[@id='id_email']")).clear();
+        driver.findElement(By.xpath("//form[@id='login-form']//input[@id='id_email']")).sendKeys("beck@gmail.com");
+        driver.findElement(By.xpath("//form[@id='login-form']//button[@name='continue']")).click();
+        sleepInSecond(1);
+
+        // Verify message at password text
+        Assert.assertEquals(getElementValidationMessage("//form[@id='login-form']//input[@id='id_password']"), "Please fill out this field.");
+
+    }
+
+    @Test
+    public void HW_TC_04_CreateAnAccount_Techpanda(){
+        navigateToUrlByJS("https://live.techpanda.org/");
+
+        // Click on hidden My Account on the dropdown without click on Account to open the dropdown first
+        hightlightElement("//div[@id='header-account']//a[text()='My Account']");
+        clickToElementByJS("//div[@id='header-account']//a[text()='My Account']");
+        sleepInSecond(2);
+
+        // Hightlight and click on Create an account
+        hightlightElement("//a[@title='Create an Account']");
+        clickToElementByJS("//a[@title='Create an Account']");
+        sleepInSecond(2);
+
+        // Enter valid credentials
+        hightlightElement("//input[@id='firstname']");
+        sendkeyToElementByJS("//input[@id='firstname']", firstName);
+        sleepInSecond(1);
+
+        hightlightElement("//input[@id='lastname']");
+        sendkeyToElementByJS("//input[@id='lastname']", lastName);
+        sleepInSecond(1);
+
+        hightlightElement("//input[@id='email_address']");
+        sendkeyToElementByJS("//input[@id='email_address']", ranEmail);
+        sleepInSecond(1);
+
+        hightlightElement("//input[@id='password']");
+        sendkeyToElementByJS("//input[@id='password']", password);
+        sleepInSecond(1);
+
+        hightlightElement("//input[@id='confirmation']");
+        sendkeyToElementByJS("//input[@id='confirmation']", password);
+        sleepInSecond(1);
+
+        // Click register
+        hightlightElement("//button[@title='Register']");
+        clickToElementByJS("//button[@title='Register']");
+        sleepInSecond(1);
+
+        // Accept alert
+        driver.switchTo().alert().accept();
+        sleepInSecond(2);
+
+        // Verify message
+        Assert.assertTrue(isExpectedTextInInnerText("Thank you for registering with Main Website Store."));
+
+        // Log out
+        hightlightElement("//a[text()='Log Out']");
+        clickToElementByJS("//a[text()='Log Out']");
+        sleepInSecond(8);
+
+        // Verify return to home page
+        Assert.assertFalse(driver.findElement(By.xpath("//title")).isDisplayed());
     }
 
     @AfterClass
