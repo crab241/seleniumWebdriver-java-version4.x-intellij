@@ -17,13 +17,13 @@ public class Topic_24_Handle_Upload_File {
 
     String uploadFilePath = System.getProperty("user.dir") + "\\uploadFiles\\";
 
-    String astronautFile = "astronaut.jpg";
-    String galaxyFile = "galaxy.jpg";
-    String moonFile = "moon_background.jpg";
+    String astronautFileName = "astronaut.jpg";
+    String galaxyFileName = "galaxy.jpg";
+    String moonFileName = "moon_background.jpg";
 
-    String astronautFilePath = uploadFilePath + astronautFile;
-    String galaxyFilePath = uploadFilePath + galaxyFile;
-    String moonFilePath = uploadFilePath + moonFile;
+    String astronautFilePath = uploadFilePath + astronautFileName;
+    String galaxyFilePath = uploadFilePath + galaxyFileName;
+    String moonFilePath = uploadFilePath + moonFileName;
 
 
     @BeforeClass
@@ -51,9 +51,9 @@ public class Topic_24_Handle_Upload_File {
         driver.findElement(uploadFileBy).sendKeys(moonFilePath);
 
         // Verify loaded files
-        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + astronautFile + "']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + galaxyFile + "']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + moonFile + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + astronautFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + galaxyFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + moonFileName + "']")).isDisplayed());
 
         // Upload files
         List<WebElement> startUploadButtons = driver.findElements(By.cssSelector("table button.start"));
@@ -64,11 +64,41 @@ public class Topic_24_Handle_Upload_File {
 
         // Verify uploaded files
 
-        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + astronautFile + "']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + galaxyFile + "']")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + moonFile + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + astronautFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + galaxyFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + moonFileName + "']")).isDisplayed());
 
     }
+
+    @Test
+    public void TC_02_Multiple_Files() throws InterruptedException {
+        driver.get("https://blueimp.github.io/jQuery-File-Upload/");
+
+        By uploadFileBy = By.cssSelector("input[type='file']");
+
+        // Load files
+        driver.findElement(uploadFileBy).sendKeys(astronautFilePath + "\n" + galaxyFilePath + "\n" + moonFilePath);
+        Thread.sleep(2000);
+
+        // Verify loaded files
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + astronautFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + galaxyFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + moonFileName + "']")).isDisplayed());
+
+        // Upload files
+        List<WebElement> startUploadButtons = driver.findElements(By.cssSelector("table button.start"));
+        for (WebElement  startButton : startUploadButtons) {
+            startButton.click();
+            Thread.sleep(1);
+        }
+
+        // Verify uploaded files
+
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + astronautFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + galaxyFileName + "']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[text()='" + moonFileName + "']")).isDisplayed());
+    }
+
 
     @AfterClass
     public void afterClass(){
