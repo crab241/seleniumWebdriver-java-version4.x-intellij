@@ -12,10 +12,12 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Random;
 
 public class Topic_25_Wait_Part_1_Element_Status {
     WebDriver driver;
     WebDriverWait explicitWait;
+    String randomEmail = "johnwick" + new Random().nextInt(9999) + "@gmail.com";
 
     @BeforeClass
     public void beforeClass(){
@@ -108,6 +110,86 @@ public class Topic_25_Wait_Part_1_Element_Status {
 
     }
 
+    @Test
+    public void HW_TC_01_Visible(){
+        driver.get("https://live.techpanda.org/index.php/customer/account/login/");
+
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        // Conditioin 1: element is visible on UI, and presence in DOM/HTML
+        System.out.println("Start time: " + getDateTimeNow());
+        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+        System.out.println("End time: " + getDateTimeNow());
+    }
+
+    @Test
+    public void HW_TC_02_Invisible_In_HTML(){
+        driver.get("https://live.techpanda.org/index.php/customer/account/login/");
+
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        // Conditioin 1: element is visible on UI, and presence in DOM/HTML
+        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+
+        driver.findElement(By.cssSelector("input#email")).sendKeys(randomEmail);
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        // Condition 2: Element is not visible on UI, but presence in DOM/HTML
+        System.out.println("Start time: " + getDateTimeNow());
+        explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+        System.out.println("End time: " + getDateTimeNow());
+
+    }
+
+    @Test
+    public void HW_TC_02_Invisible_Not_In_HTML(){
+        driver.get("https://live.techpanda.org/index.php/customer/account/login/");
+
+        driver.findElement(By.cssSelector("input#email")).sendKeys(randomEmail);
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        // Condition 3: Element is not visible on UI + DOM/HTML
+        System.out.println("Start time: " + getDateTimeNow());
+        explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+        System.out.println("End time: " + getDateTimeNow());
+
+    }
+
+    @Test
+    public void HW_TC_03_Presence(){
+        driver.get("https://live.techpanda.org/index.php/customer/account/login/");
+
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        // Condition 1: Element visible on UI and DOM/ HTML
+        explicitWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+
+        driver.findElement(By.cssSelector("input#email")).sendKeys(randomEmail);
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        // Condition 2: Element is not visible on UI, but presence in DOM/HTML
+        explicitWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+    }
+
+    @Test
+    public void HW_TC_04_Stateness(){
+        driver.get("https://live.techpanda.org/index.php/customer/account/login/");
+
+        driver.findElement(By.cssSelector("button#send2")).click();
+
+        WebElement errorEmailMessage = driver.findElement(By.cssSelector("div#advice-required-entry-email"));
+
+        // Refresh page
+        driver.navigate().refresh();
+        // The error message itself won't exist in the HTML any more after refresh
+
+        // Condition 3: Element is not visible on both UI + DOM/HTML
+        explicitWait.until(ExpectedConditions.stalenessOf(errorEmailMessage));
+
+        // Somehow the invisible function also cover this
+        explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#advice-required-entry-email")));
+
+    }
     @AfterClass
     public void afterClass(){
         driver.quit();
