@@ -48,16 +48,18 @@ public class Topic_26_Wait_Part_II_FindElement {
 
     @Test
     public void TC_02_FindElements(){
+        driver.get("https://demo.nopcommerce.com/register?returnUrl=%2F");
+
         List<WebElement> elements = null;
 
         // 1 - If only 1 element is found
         // Return only 1
-        driver.findElement(By.cssSelector("input#FirstName"));
+        elements = driver.findElements(By.cssSelector("input#FirstName"));
         System.out.println(elements.size());  // 1
 
         // 2 - If more than 1 element are found
         // Return all matched elements
-        driver.findElement(By.cssSelector("input[type='text']"));
+        elements = driver.findElements(By.cssSelector("input[type='text']"));
         System.out.println(elements.size());  // 4
 
         // 3 - If no element is found ( Case hay nhat )
@@ -66,7 +68,7 @@ public class Topic_26_Wait_Part_II_FindElement {
         // Tìm lại mà ko thấy hết tổng time đã set thì:
         // + Return List WebElement = 0
         // + Ko danh fail test case
-        driver.findElement(By.cssSelector("input#RememberMe"));
+        elements = driver.findElements(By.cssSelector("input#RememberMe"));
         System.out.println(elements.size());  // 0
         Assert.assertEquals(elements.size(), 0);
 
