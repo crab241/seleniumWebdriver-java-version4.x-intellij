@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -42,7 +43,7 @@ public class Topic_27_Wait_Part_III_Explicit_Function {
         emailTextBox.getAttribute("");
 
         explicitWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("input#example"))));
-        // This findElement step is somewhat repeat step since the visibilityOf function already findElement
+        // This findElement step is somewhat a repeat step with the findElement since the visibilityOf function already findElement
         driver.findElement(By.cssSelector("input#example")).sendKeys("Automation FC");
 
         explicitWait.until(ExpectedConditions.visibilityOfAllElements(
@@ -117,6 +118,34 @@ public class Topic_27_Wait_Part_III_Explicit_Function {
         explicitWait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(1));
 
 
+    }
+
+    @Test
+    public void HW_TC_04_ExplicitWait_Invisible(){
+        driver.get("https://automationfc.github.io/dynamic-loading/");
+
+        driver.findElement(By.cssSelector("div#start>button")).click();
+
+        By loadingIcon = By.cssSelector("div#loading");
+        // Wait until the loading icon disappear
+        explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(loadingIcon));
+
+        // Verify Message
+        Assert.assertEquals(driver.findElement(By.cssSelector("div#finish>h4")).getText(), "Hello World!");
+    }
+
+    @Test
+    public void HW_TC_05_ExplicitWait_Visible(){
+        driver.get("https://automationfc.github.io/dynamic-loading/");
+
+        driver.findElement(By.cssSelector("div#start>button")).click();
+
+        By message = By.cssSelector("div#finish>h4");
+        // Wait until the Hello World message appear
+        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(message));
+
+        // Verify Message
+        Assert.assertEquals(driver.findElement(By.cssSelector("div#finish>h4")).getText(), "Hello World!");
     }
 
 
