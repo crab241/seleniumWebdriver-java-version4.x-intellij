@@ -1,9 +1,6 @@
 package webdriver;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -152,6 +149,148 @@ public class Topic_30_Wait_Part_VI_Fluent_Wait {
                         return driver.findElement(By.cssSelector(cssLocator)).isDisplayed();
                     }
                 });
+    }
+
+    // Function to check/ wait for loading icon to disappear
+    private Boolean isLoadingIconInvisible_ver1(String cssLocator){
+        FluentWait<WebDriver> fluentWait = new FluentWait(driver);
+
+        fluentWait.withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+
+        return fluentWait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return !driver.findElement(By.cssSelector(cssLocator)).isDisplayed();
+            }
+        });
+    }
+
+    private Boolean isLoadingIconInvisible_ver2(String cssLocator){
+        FluentWait<WebDriver> fluentWait = new FluentWait(driver);
+
+        fluentWait.withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+
+        return fluentWait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return driver.findElements(By.cssSelector(cssLocator)).isEmpty();
+            }
+        });
+    }
+
+    private Boolean waitTextChange(String cssLocator, String textExpected){
+        FluentWait<WebDriver> fluentWait = new FluentWait(driver);
+
+        fluentWait.withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+
+        return fluentWait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return driver.findElement(By.cssSelector(cssLocator)).getText().equals(textExpected);
+            }
+        });
+    }
+
+    public boolean isAjaxBusyLoadingInvisible() {
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        return explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div#ajaxBusy")));
+    }
+
+    public boolean isAjaxBusyIconInvisible() {
+        FluentWait<WebDriver> fluentWait = new FluentWait(driver);
+        fluentWait.withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
+
+        return fluentWait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return !driver.findElement(By.cssSelector("div#ajaxBusy")).isDisplayed();
+            }
+        });
+    }
+
+    // WebDriverWait
+    public boolean isPageLoadedSuccess() {
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+
+        // Điều kiện 1
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean) jsExecutor.executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
+            }
+        };
+
+        // Điều kiện 2
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
+            }
+        };
+        return explicitWait.until(jQueryLoad) && explicitWait.until(jsLoad);
+    }
+
+    // Fluent Wait
+    public boolean isPageLoadSuccess_FluentWait() {
+        FluentWait<WebDriver> fluentWait = new FluentWait(driver);
+        fluentWait.withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(JavascriptException.class);
+
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+
+        // Điều kiện 1
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean) jsExecutor.executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
+            }
+        };
+
+        // Điều kiện 2
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
+            }
+        };
+        return fluentWait.until(jQueryLoad) && fluentWait.until(jsLoad);
+    }
+
+    // WebDriverWait way
+    public boolean isPageLoadSuccess_WebDriverWait(){
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+
+        // First condition
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean) jsExecutor.executeScript("return (window,jQuery != null) && (jQuery.active === 0");
+            }
+        };
+
+        // Second condition
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
+            }
+        };
+        return explicitWait.until(jQueryLoad) && explicitWait.until(jsLoad);
     }
 
     @AfterClass
